@@ -6,15 +6,18 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface DimigoinService {
-    @GET("dimibobs/{date}")
-    fun dimibobs(@Path("date") date: String): Call<Dimibob>
+    @GET("meal/date/{date}")
+    /**
+     * @param date yyyy-MM-dd formatted date
+     */
+    suspend fun mealWithDate(@Path("date") date: String): Meal
 }
 
-data class Dimibob(
-    @SerializedName("breakfast") val breakfast: String,
-    @SerializedName("lunch")     val lunch: String,
-    @SerializedName("dinner")    val dinner: String,
-    @SerializedName("snack")     val snack: String,
-    @SerializedName("date")      val date: String,
-)
-
+data class Meal(val meal: Content) {
+    data class Content(
+        val breakfast: List<String>,
+        val lunch: List<String>,
+        val dinner: List<String>,
+        val date: String,
+    )
+}
